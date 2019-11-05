@@ -39,7 +39,7 @@ class Login extends Component {
                     console.log('my val' , childsnap.val())
                     var val1 = childsnap.val()
                     //  val1['key'] = value.key
-                    this.storeData(val1);
+                    //this.storeData(val1);
                     alert('login successfull')
                      if (val1.accountType === "1") {
                        this.props.navigation.navigate('Home')
