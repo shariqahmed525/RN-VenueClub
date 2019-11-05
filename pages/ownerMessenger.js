@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 import { Image } from 'react-native';
 import {Button,Icon, Container, Header, Content,Item,Input,FooterTab,Text,Footer,Body, Title, Left, Right} from 'native-base';
 
-class Messenger extends Component {
+class OwnerMessenger extends Component {
     render() {
         return(
             <Container>
             
             <Header style={{backgroundColor:'#28A745'}}>
             <Left>
-            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('ContactList')}>
+            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('OwnerContactList')}>
             <Icon name='arrow-back' />
             
           </Button>
@@ -64,4 +64,4 @@ class Messenger extends Component {
     }
 }
 
-export default Messenger;
+export default OwnerMessenger;

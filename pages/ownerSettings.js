@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Text, View, Image} from 'react-native';
 import {Content,Icon, Left, Right,Body, Input,Label, Container, Header,Title, Form, Item,Button} from 'native-base';
 
-class Settings extends Component {
+class OwnerSettings extends Component {
 
   constructor(props){
     super(props);
@@ -18,7 +18,7 @@ class Settings extends Component {
             <Header style={{backgroundColor:'#28A745'}}>
  
             <Left>
-            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('Home')}>
+            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('OwnerHome')}>
             <Icon name='arrow-back' />
             
           </Button>
@@ -46,6 +46,7 @@ class Settings extends Component {
                   <Input  />
                 
             </Item>
+    
     
            <Item floatingLabel last>
                   <Label >Enter Password</Label>
@@ -98,4 +99,4 @@ class Settings extends Component {
         )
     }}
 
-export default withNavigation(Settings);
+export default withNavigation(OwnerSettings);

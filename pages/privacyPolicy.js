@@ -12,7 +12,12 @@ class PrivacyPolicy extends Component {
         
             <Header style={{backgroundColor:'#28A745'}}>
  
-            <Left/>
+            <Left>
+            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('Home')}>
+            <Icon name='arrow-back' />
+            
+          </Button>
+            </Left>
             <Body>
             <Title>Venue Club</Title>
             </Body>
@@ -39,8 +44,9 @@ class PrivacyPolicy extends Component {
             <Text style={{alignSelf:'flex-start', fontSize:15, marginLeft:10,fontFamily:'sans-serif'}}>Our Service does not address anyone under the age of 18 ("Children"). We do not knowingly collect personally identifiable information from anyone under the age of 18. If you are a parent or guardian and you are aware that your Child has provided us with Personal Data, please contact us. If we become aware that we have collected Personal Data from children without verification of parental consent, we take steps to remove that information from our servers.</Text>
             <Text style={{alignSelf:'flex-start', fontSize:35, marginLeft:10,fontFamily:'cursive'}}>Contact Us</Text>
             <Text style={{alignSelf:'flex-start', fontSize:15, marginLeft:10,fontFamily:'sans-serif'}}>If you have any questions about this Privacy Policy, please contact us</Text>
-            <Text style={{alignSelf:'center', fontSize:35, marginLeft:10,fontFamily:'cursive'}}>Stay up to date !
+            <Text style={{alignSelf:'center', fontSize:35, marginLeft:10,fontFamily:'cursive',marginBottom:20}}>Stay up to date !
             </Text>
+
             
             </Content>
             

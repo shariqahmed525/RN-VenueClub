@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Image } from 'react-native';
 import {Button, Container, Header, Content,ListItem,List,Thumbnail,Icon,Text,Form,Body, Title, Left, Right} from 'native-base';
 
-class ContactList extends Component {
+class OwnerContactList extends Component {
 
     constructor() {
         super();
@@ -30,7 +30,7 @@ class ContactList extends Component {
             <Header style={{backgroundColor:'#28A745'}}>
  
             <Left>
-            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('Home')}>
+            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('OwnerHome')}>
             <Icon name='arrow-back' />
             
           </Button>
@@ -46,7 +46,7 @@ class ContactList extends Component {
                 return(
             
                     <List>
-                        <ListItem avatar  onPress={()=> this.props.navigation.navigate('Messenger')}>
+                        <ListItem avatar  onPress={()=> this.props.navigation.navigate('OwnerMessenger')}>
                       <Left>
                         <Thumbnail source={val.image} />
                       </Left>
@@ -68,4 +68,4 @@ class ContactList extends Component {
     }
 }
 
-export default ContactList;
+export default OwnerContactList;

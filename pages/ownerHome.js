@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Image} from 'react-native';
-import {List,ListItem,Drawer,Container, Header,Title,Right, Left, Body, Content,Root,Icon,Toast,Card,Tabs,Tab,ScrollableTab, Text,Thumbnail,Button,CardItem } from 'native-base';
-import UserSideBar from '../components/userSideBar.js';
-import firebase from '../config/firebase.js';
-class Home extends Component {
+import {List, ListItem, Drawer, Container, Header, Title, Right, Left, Body, Root, Icon, Text, Button } from 'native-base';
+import OwnerSideBar from '../components/ownerSideBar.js';
+
+class OwnerHome extends Component {
 
   constructor(props) {
     super(props);
@@ -11,13 +11,6 @@ class Home extends Component {
       showToast: false,
       topDealsArray : []
     }
-  }
-  logOff() {
-    firebase.auth().signOut().then(()=> {
-      this.props.navigation.navigate('Login');
-    }).catch(function(error) {
-      alert(''+error);
-    });
   }
 
   closeDrawer () {
@@ -45,7 +38,7 @@ class Home extends Component {
 
 <Drawer 
         ref={(ref) => { this._drawer = ref; }} 
-        content={<UserSideBar navigator={this._navigator} />} 
+        content={<OwnerSideBar navigator={this._navigator} />} 
         onClose={() => this.closeDrawer()} >
 
       <Container>
@@ -60,10 +53,8 @@ class Home extends Component {
         
         <Body><Title>Venue Club</Title></Body>
         <Right>
-        <Button transparent onPress={() => this.props.navigation.navigate('Search')}>
-        <Thumbnail  style={{height:30, width:30, marginLeft:20}} source={require('../images/search1.jpg')} />
-        </Button>
-        <Button transparent onPress={()=> this.logOff()}><Text >Logout</Text></Button>
+        
+        <Button transparent><Text >Logout</Text></Button>
         
         </Right>
         
@@ -71,55 +62,10 @@ class Home extends Component {
         </Header>
 
 
-        <Tabs tabBarBackgroundColor="#28A745" renderTabBar={()=> <ScrollableTab />}>
-          <Tab tabStyle={{backgroundColor: '#28A745'}} textStyle={{color: '#ffffff'}} activeTextStyle={{color: '#ffffff'}} activeTabStyle={{backgroundColor: '#28A745'}} heading="Top Deal">
-            <Content >
-            
-            { topDealsArray.map((val , ind) => {
-              return(
+       
+        <Button  onPress={() => this.props.navigation.navigate('OwnerRegistration')} block style={{width: 200 , backgroundColor: '#28A745', alignSelf:'center', marginTop: 10, marginBottom:20}}><Text>Add Venue</Text></Button>
 
-              
-
-            <Card>
-            <CardItem>
-              <Left>
-                <Body>
-                  <Text style={{}}>{val.hallName}</Text>
-                  <Text note>{val.address}</Text>
-                </Body>
-              </Left>
-              <Right>
-              <Text style={{color:'#f60606'}}>{val.offer}</Text>
-              </Right>
-            </CardItem>
-            <CardItem cardBody>
-              <Image source={val.image} style={{height: 200, width: null, flex: 1}}/>
-            </CardItem>
-            <CardItem>
-              <Left>
-                <Button onPress={() => this.props.navigation.navigate('UserViewTopDeals')} block style={{backgroundColor:'#28A745', width:170}} 
-                  
-                   >
-                  <Text>View Lawn</Text>
-                </Button>
-              </Left>
-              <Body>
-                <Button block style={{backgroundColor:'#28A745', width:170}}>
-                  <Text>Register Hall</Text>
-                </Button>
-                
-              </Body>
-              
-            </CardItem>
-           
-          </Card>) } )}
-
-          
-
-            </Content>
-          </Tab>
-          <Tab tabStyle={{backgroundColor: '#28A745'}} textStyle={{color: '#ffffff'}} activeTextStyle={{color: '#ffffff'}} activeTabStyle={{backgroundColor: '#28A745'}} heading="Recent Bookings">
-          
+          <Text style={{alignSelf:'center',fontWeight:'bold'}}>Recent Bookings</Text>
           <List>
             <ListItem selected>
               <Left>
@@ -176,7 +122,7 @@ class Home extends Component {
             </ListItem>
             </List>
 
-          </Tab>
+          
           {/*<Tab tabStyle={{backgroundColor: '#28A745'}} textStyle={{color: '#ffffff'}} activeTextStyle={{color: '#ffffff'}} activeTabStyle={{backgroundColor: '#28A745'}} heading="Tab3">
           <Text>abc</Text>
           </Tab>
@@ -186,7 +132,7 @@ class Home extends Component {
           <Tab tabStyle={{backgroundColor: '#28A745'}} textStyle={{color: '#28A745'}} activeTextStyle={{color: '#28A745'}} activeTabStyle={{backgroundColor: '#28A745'}} heading="Tab5">
           <Text>abc</Text>
                 </Tab> */}
-        </Tabs> 
+        
 
       
 
@@ -202,4 +148,4 @@ class Home extends Component {
 
 }
 
-export default Home;
+export default OwnerHome;

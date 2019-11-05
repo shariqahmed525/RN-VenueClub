@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 import {Textarea,Button, Container, Header, Content,Item,Label,Input,Picker,Icon,Text,Form,Body, Title, Left, Right} from 'native-base';
 import firebase from '../config/firebase.js'
 
-class Contactus extends Component {
+class OwnerContact extends Component {
     constructor(props) {
         super(props)
   
@@ -100,4 +100,4 @@ class Contactus extends Component {
     }
 }
 
-export default Contactus;
+export default OwnerContact;

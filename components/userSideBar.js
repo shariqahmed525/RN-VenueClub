@@ -2,18 +2,46 @@ import { withNavigation } from 'react-navigation';
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {Content, Button, ListItem, Left, Right,Thumbnail,Body, Icon,List} from 'native-base';
+import firebase from '../config/firebase.js';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class UserSideBar extends Component {
 
   constructor(props){
-    super(props);
+    super(props)
+    this.state = {
+      
+    }
     
 
     }
+    componentDidMount() {
+      this.getData();
+    }
+    async getData(user){
+      try {
+        const value = await AsyncStorage.getItem('user')
+        console.log(value)
+      } catch(e) {
+        console.log(e)
+      }
+    }
+    
+    logOff() {
+      firebase.auth().signOut().then(()=> {
+        this.props.navigation.navigate('Login');
+      }).catch(function(error) {
+        alert(''+error);
+      });
+    }
+    check(){
+      const {user}=this.state;
+      console.log(user)
+    }
 
     render() {
-
-   
+      const {user}=this.state;
+  
         return(
     
             <Content style={{backgroundColor:'#ffffff'}}>
@@ -28,54 +56,34 @@ class UserSideBar extends Component {
             </Left>
                 
             <Body>
-                <Text>Majid</Text>
+                <Text  onPress={()=> this.check()}>Majid</Text>
             </Body>
             
             </ListItem>
 
             <Text>{"\n"}</Text>
 
-
-            <ListItem thumbnail>
-              <Left>
-                <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/dashboard.png')} />
-              </Left>
-              <Body>
-                <Text>Dashboard</Text>
-              </Body>
-            </ListItem>
-
-
           <ListItem thumbnail onPress={() => this.props.navigation.navigate('ContactList')}>
           <Left>
-            <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/message.png')} />
+            <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/message.png')} />
           </Left>
           <Body>
             <Text>Messages</Text>
           </Body>
         </ListItem>
 
-        <ListItem thumbnail onPress={() => this.props.navigation.navigate('Settings')}>
+        <ListItem thumbnail onPress={() => this.props.navigation.navigate('Search')}>
         <Left>
-          <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/settings.png')} />
+          <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/search.png')} />
         </Left>
         <Body>
-          <Text>Settings</Text>
+          <Text>Search</Text>
         </Body>
       </ListItem>
 
-      <ListItem thumbnail onPress={() => this.props.navigation.navigate('PrivacyPolicy')}>
-      <Left>
-        <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/privacyPolicy.jpg')} />
-      </Left>
-      <Body>
-        <Text>Privacy Policy</Text>
-      </Body>
-    </ListItem>
-
-    <ListItem thumbnail onPress={() => this.props.navigation.navigate('Aboutus')}>
+      <ListItem thumbnail onPress={() => this.props.navigation.navigate('Aboutus')}>
     <Left>
-      <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/aboutus.png')} />
+      <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/aboutus.png')} />
     </Left>
     <Body>
       <Text>About Us</Text>
@@ -83,17 +91,50 @@ class UserSideBar extends Component {
   </ListItem>
 
   <ListItem thumbnail onPress={() => this.props.navigation.navigate('Contactus')}>
-    <Left>
-      <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/contactus.png')} />
-    </Left>
-    <Body>
-      <Text>Contact Us</Text>
-    </Body>
-  </ListItem>
+  <Left>
+    <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/contactus.png')} />
+  </Left>
+  <Body>
+    <Text>Contact Us</Text>
+  </Body>
+</ListItem>
 
-      <ListItem thumbnail>
+<ListItem thumbnail onPress={() => this.props.navigation.navigate('PrivacyPolicy')}>
       <Left>
-        <Thumbnail square tyle={{width: 30, height: 30}}  source={require('../images/logout.png')} />
+        <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/privacyPolicy.jpg')} />
+      </Left>
+      <Body>
+        <Text>Privacy Policy</Text>
+      </Body>
+    </ListItem>
+
+    <ListItem thumbnail onPress={() => this.props.navigation.navigate('TermsAndCondition')}>
+      <Left>
+        <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/terms.jpg')} />
+      </Left>
+      <Body>
+        <Text>Terms and Condition</Text>
+      </Body>
+    </ListItem>
+
+        <ListItem thumbnail onPress={() => this.props.navigation.navigate('Settings')}>
+        <Left>
+          <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/settings.png')} />
+        </Left>
+        <Body>
+          <Text>Settings</Text>
+        </Body>
+      </ListItem>
+
+      
+
+    
+
+  
+
+      <ListItem thumbnail onPress={()=> this.logOff()}>
+      <Left>
+        <Thumbnail square style={{width: 30, height: 30}}  source={require('../images/logout.png')} />
       </Left>
       <Body>
         <Text>Logout</Text>

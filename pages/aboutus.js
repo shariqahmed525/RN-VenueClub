@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Image } from 'react-native';
-import {Card,CardItem, Container, Header, Content,Item,Label,Input,Picker,Icon,Text,Form,Body, Title, Left, Right} from 'native-base';
+import {Card,CardItem,Button, Container, Header, Content,Item,Label,Input,Picker,Icon,Text,Form,Body, Title, Left, Right} from 'native-base';
 
 class Aboutus extends Component {
     render(){
@@ -9,7 +9,12 @@ class Aboutus extends Component {
         
 
             <Header style={{backgroundColor:'#28A745'}}>
-            <Left/>
+            <Left>
+            <Button iconLeft transparent onPress={() => this.props.navigation.navigate('Home')}>
+            <Icon name='arrow-back' />
+            
+          </Button>
+            </Left>
             <Body>
             <Title>Venue Club</Title>
             </Body>
