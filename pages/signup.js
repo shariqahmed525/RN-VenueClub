@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Image } from 'react-native';
 import {Button, Container, Header, Content,Item,Label,Input,Picker,Icon,Text,Form,Body, Title, Left, Right} from 'native-base'; 
 import firebase from '../config/firebase.js'
-import AsyncStorage from '@react-native-community/async-storage';
 
 class Signup extends Component {
 
@@ -78,7 +77,6 @@ class Signup extends Component {
           }
     
           skey.set(obj)
-          AsyncStorage.setItem('user',obj)
           alert('signup successfully')
           this.props.navigation.navigate('OwnerHome');
           }
@@ -109,7 +107,6 @@ class Signup extends Component {
         }
   
         skey.set(obj)
-        AsyncStorage.setItem('user',obj)
         alert('signup successfully')
         this.props.navigation.navigate('Home');
         }

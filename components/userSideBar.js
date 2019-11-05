@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {Content, Button, ListItem, Left, Right,Thumbnail,Body, Icon,List} from 'native-base';
 import firebase from '../config/firebase.js';
-import AsyncStorage from '@react-native-community/async-storage';
+
 
 class UserSideBar extends Component {
 
@@ -15,17 +15,8 @@ class UserSideBar extends Component {
     
 
     }
-    componentDidMount() {
-      this.getData();
-    }
-    async getData(user){
-      try {
-        const value = await AsyncStorage.getItem('user')
-        console.log(value)
-      } catch(e) {
-        console.log(e)
-      }
-    }
+    
+    
     
     logOff() {
       firebase.auth().signOut().then(()=> {
@@ -34,10 +25,7 @@ class UserSideBar extends Component {
         alert(''+error);
       });
     }
-    check(){
-      const {user}=this.state;
-      console.log(user)
-    }
+    
 
     render() {
       const {user}=this.state;
@@ -56,7 +44,7 @@ class UserSideBar extends Component {
             </Left>
                 
             <Body>
-                <Text  onPress={()=> this.check()}>Majid</Text>
+                <Text >Majid</Text>
             </Body>
             
             </ListItem>

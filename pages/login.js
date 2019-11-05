@@ -4,7 +4,7 @@ import {Button, Container, Header, Content,Item,Label,Input,Text,Icon,Form,Body,
 import { connect } from 'react-redux';
 import {LoginDetail} from '../store/action/action.js';
 import firebase from '../config/firebase.js';
-import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 class Login extends Component {
@@ -18,13 +18,7 @@ class Login extends Component {
     }
    
   }
-  async storeData(val){
-    try {
-      await AsyncStorage.setItem('user',val );
-    } catch (e) {
-      console.log(e)
-    }
-  }
+  
    login() {
     const { email, password } = this.state
 
@@ -69,53 +63,6 @@ class Login extends Component {
             });
     }
 }
-
-facebookLogin() {
-  var provider = new firebase.auth.FacebookAuthProvider();
-
-  firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-          if (result.additionalUserInfo.isNewUser) {
-              this.setState({
-                  obj2: {
-                      fName: result.additionalUserInfo.profile.first_name,
-                      lName: result.additionalUserInfo.profile.last_name,
-                      email: result.user.email,
-                      uid: result.user.uid,
-                  },
-                  email: result.user.email,
-                  phoneNumber: result.user.phoneNumber
-              })
-          }
-          else {
-              firebase.database().ref('users').child(`${result.user.uid}`).once('value', (value) => {
-                  var val1 = value.val()
-                  val1['key'] = value.key
-                  
-                  alert('login successfull')
-                  if (val1.accountType === "1") {
-                      this.props.navigation.navigate('Home')
-                  }
-                  else {
-                    this.props.navigation.navigate('OwnerHome')
-                  }
-              })
-          }
-      })
-      .catch(function (error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          alert(errorMessage)
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-      });
-}
-
-    
   render(){
   return (
     <Container>
