@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "836378910974",
+    "firebase_url": "https://venue-club.firebaseio.com",
+    "project_id": "venue-club",
+    "storage_bucket": "venue-club.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836378910974:android:e70b649b5620d1a30645af",
+        "android_client_info": {
+          "package_name": "com.venueclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836378910974-v85vv9ie1pfikcachsh20qhd035k681s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-G23rO4NyVijZg4tCW1RN4NbzIYKaDgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836378910974-v85vv9ie1pfikcachsh20qhd035k681s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
