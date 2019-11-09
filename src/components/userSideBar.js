@@ -61,7 +61,7 @@ const UserSideBar = () => {
 
         <ListItem thumbnail onPress={() => navigate('ContactList')}>
           <Left>
-            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/message.png')} />
+            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/booking.png')} />
           </Left>
           <Body>
             <Text>Messages</Text>
@@ -88,7 +88,7 @@ const UserSideBar = () => {
 
         <ListItem thumbnail onPress={() => navigate('Contactus')}>
           <Left>
-            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/contactus.png')} />
+            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/telephone.png')} />
           </Left>
           <Body>
             <Text>Contact Us</Text>

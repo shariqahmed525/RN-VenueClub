@@ -47,11 +47,12 @@ export default Register = () => {
   const [loading, setLoading] = useState(false);
 
   const today = moment().format("YYYY-MM-DD");
-  const bookedDate = data && data.bookings;
+  const bookedDate = data && data.bookingsMob;
   // console.log(data);
 
   const handleDatePicker = d => {
     setDate(d);
+    console.log(d, " selected date");
     setVisible(false);
   }
 
@@ -90,6 +91,7 @@ export default Register = () => {
                   ...obj,
                   // '2019-11-19': { disabled: true, disableTouchEvent: true }
                 }}
+                onDayPress={handleDatePicker}
                 onDayLongPress={handleDatePicker}
               />
             </View>
@@ -114,7 +116,7 @@ export default Register = () => {
       .ref('allHallData')
       .child(venueOwnerKey)
       .child(hallDataKey)
-      .child('bookings')
+      .child('bookingsMob')
       .child(newDate)
       .set({
         bookId: uid,

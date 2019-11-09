@@ -53,8 +53,8 @@ export default Home = () => {
     const newArr = [];
     allHalls.length > 0 && (
       allHalls.map(v => {
-        if (v.bookings) {
-          _.mapValues(v.bookings, (o) => {
+        if (v.bookingsMob) {
+          _.mapValues(v.bookingsMob, (o) => {
             if (o.bookId === uid && o.status === "PENDING") {
               newArr.push([v.hallName, `${o.day}/${o.month}/${o.year}`, o.status]);
             }

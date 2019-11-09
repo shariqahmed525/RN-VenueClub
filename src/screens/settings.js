@@ -19,13 +19,17 @@ import {
 } from 'native-base';
 import { OfficialColor } from '../constants/colors';
 import store from '../store';
-import { DATABASE } from '../config/firebase';
+import { DATABASE, AUTH } from '../config/firebase';
 import { user } from '../store/action/action';
+import Axios from 'axios';
+import { FIREBASE_URL, CHANGE_PASS, DELETE_USER } from '../constants/constant';
+import { useNavigation } from 'react-navigation-hooks';
 
 const Settings = () => {
-
+  let { navigate } = useNavigation();
   const [fName, setFName] = useState("");
   const [userD, setUser] = useState(null);
+  const [uid, setUid] = useState("");
   const [lName, setLName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +43,8 @@ const Settings = () => {
 
   const getStateFromStore = () => {
     const { reducer } = store.getState();
-    const { user } = reducer;
+    const { user, uid } = reducer;
+    setUid(uid);
     setUser(user);
     setLName(user.lName);
     setFName(user.fName);
@@ -52,7 +57,7 @@ const Settings = () => {
       lName,
       fName,
       phoneNumber,
-    }).then(res => {
+    }).then(() => {
       setLoading(false);
       store.dispatch(user({
         ...userD,
@@ -66,8 +71,49 @@ const Settings = () => {
     })
   }
 
-  const changePassword = () => {
+  const changePassword = async () => {
+    if (password.trim().length < 6) {
+      alert("Password must be atleast 6 characters");
+      return;
+    }
+    if (password.trim() !== cPassword.trim()) {
+      alert("Password not matched");
+      return;
+    }
+    else {
+      try {
+        setLoading(true);
+        await Axios.post(`${FIREBASE_URL}${CHANGE_PASS}`, {
+          userId: uid,
+          newPassword: password,
+        });
+        alert("Password update successfully!");
+        setPassword("");
+        setCPassword("");
+        setLoading(false);
+      }
+      catch (e) {
+        setLoading(false);
+        alert("Something went wrong try again!");
+        console.log(e, " error in change password");
+      }
+    }
+  }
 
+  const deleteUser = async () => {
+    try {
+      setLoading(true);
+      await Axios.post(`${FIREBASE_URL}${DELETE_USER}`, {
+        userId: uid,
+      });
+      AUTH.signOut().then(() => navigate('Login'));
+      setLoading(false);
+    }
+    catch (e) {
+      setLoading(false);
+      alert("Something went wrong try again!");
+      console.log(e, " error in delete user");
+    }
   }
 
   return (
@@ -77,28 +123,32 @@ const Settings = () => {
           Edit Contact Information
         </Text>
         <Form>
-          <Item floatingLabel last>
-            <Label >First Name</Label>
+          <Item>
             <Input
               value={fName}
+              placeholder="Fist Name"
+              placeholderTextColor="#d5d5d5"
               onChangeText={(txt) => setFName(txt)}
             />
           </Item>
-          <Item floatingLabel last>
-            <Label >Last Name</Label>
+          <Item>
             <Input
               value={lName}
+              placeholder="Last Name"
+              placeholderTextColor="#d5d5d5"
               onChangeText={(txt) => setLName(txt)}
             />
           </Item>
-          <Item floatingLabel last>
-            <Label>Phone</Label>
+          <Item>
             <Input
               value={phoneNumber}
+              placeholder="Phone Number"
+              placeholderTextColor="#d5d5d5"
               onChangeText={(txt) => setPhoneNumber(txt)}
             />
           </Item>
         </Form>
+
         {loading ? (
           <Spinner color='green' />
         ) : (
@@ -142,7 +192,9 @@ const Settings = () => {
               style={styles.btn}
               onPress={changePassword}
             >
-              <Text style={{ color: '#ffffff' }}>Change Password</Text>
+              <Text style={{ color: '#ffffff' }}>
+                Change Password
+              </Text>
             </Button>
           )}
 
@@ -154,6 +206,7 @@ const Settings = () => {
         ) : (
             <Button
               block
+              onPress={deleteUser}
               style={{ ...styles.btn, backgroundColor: "#FF0000", marginBottom: 40, }}
             >
               <Text style={{ color: '#ffffff' }}>

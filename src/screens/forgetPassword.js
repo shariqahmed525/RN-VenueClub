@@ -1,100 +1,99 @@
-import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Button, Container, Header, Content, Item, Label, Input, Text, Form, Body, Title, Left, Icon, Right } from 'native-base';
+import React, {
+  useState,
+} from 'react';
+import {
+  View,
+  Image,
+  StyleSheet,
+} from 'react-native';
+import {
+  Text,
+  Form,
+  Item,
+  Label,
+  Input,
+  Button,
+  Content,
+  Spinner,
+  Container,
+} from 'native-base';
 
+import {
+  AUTH,
+} from '../config/firebase.js';
+import {
+  OfficialColor,
+} from '../constants/colors.js';
+import { useNavigation } from 'react-navigation-hooks';
 
-class ForgetPassword extends Component {
+export default Login = () => {
+  let { navigate } = useNavigation();
+  const [email, setEmail] = useState("");
+  const [disable, setDisable] = useState(false);
 
-    constructor() {
-        super();
+  const sentMail = () => {
+    setDisable(true);
+    AUTH.sendPasswordResetEmail(email)
+      .then(() => {
+        alert("Reset password mail sent you");
+        navigate('Login');
+        setDisable(false);
+      }).catch((error) => {
+        alert(error.message);
+      });
+  }
 
-        this.state = {
-            emailsent: false,
-            searchemail: true,
-            verifysecurityanswer: false
+  return (
+    <Container>
+      <Content padder style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require('../images/final_logo.png')}
+        />
+        <Form style={{ marginTop: 40 }}>
+          <Item floatingLabel last>
+            <Label >Search Here</Label>
+            <Input
+              value={email}
+              disabled={disable}
+              keyboardType="email-address"
+              onChangeText={(txt) => setEmail(txt)}
+            />
+          </Item>
+        </Form>
 
-        }
-
-    }
-
-    //   resetPassword(val){
-    //       if()
-    //   }
-
-    render() {
-
-        const { emailsent, verifysecurityanswer, searchemail } = this.state
-        return (
-
-            <Container >
-
-                <Content padder style={{ padding: 7 }}>
-
-
-
-                    <Image
-
-                        style={{ width: 190, height: 280, alignSelf: "center" }}
-                        source={require('../images/final_logo.png')} />
-
-
-
-                    <Text>{"\n"}</Text>
-                    <Text>{'\n'}</Text>
-
-                    {this.state.searchemail &&
-                        <Content>
-                            <Item floatingLabel last>
-                                <Label >Search by Email</Label>
-                                <Input />
-
-                            </Item>
-
-
-                            <Button block style={{ width: 200, backgroundColor: '#28A745', alignSelf: 'center', marginTop: 40 }} onPress={() => { this.setState({ searchemail: false, verifysecurityanswer: true, emailsent: false }) }} ><Text>Search</Text></Button>
-
-                        </Content>
-                    }
-
-
-
-                    {this.state.verifysecurityanswer &&
-                        <Content>
-
-                            <Text style={{ alignSelf: "center" }}>Security Question</Text>
-
-                            <Text>{"\n"}</Text>
-
-                            <Item floatingLabel last>
-                                <Label >Security Answer</Label>
-                                <Input />
-
-                            </Item>
-
-                            <Button block style={{ width: 200, backgroundColor: '#28A745', alignSelf: 'center', marginTop: 40 }} onPress={() => { this.setState({ searchemail: false, verifysecurityanswer: false, emailsent: true }) }}><Text>Submit</Text></Button>
-                        </Content>
-                    }
-
-
-                    {this.state.emailsent &&
-
-                        <Text style={{ alignSelf: "center" }}>Your new Password has been sent to your email</Text>
-
-                    }
-
-
-                </Content>
-
-
-            </Container>
-
-
-        )
-    }
-
-
-
-
+        {disable ? (
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Spinner color={OfficialColor} />
+          </View>
+        ) : (
+            <Button
+              block
+              onPress={sentMail}
+              disabled={disable}
+              style={styles.btn}>
+              <Text>Search</Text>
+            </Button>
+          )}
+      </Content>
+    </Container>
+  );
 }
 
-export default ForgetPassword;
+const styles = StyleSheet.create({
+  container: {
+    padding: 7,
+  },
+  logo: {
+    width: 170,
+    height: 250,
+    marginVertical: 10,
+    alignSelf: "center",
+  },
+  btn: {
+    width: 200,
+    marginVertical: 30,
+    alignSelf: 'center',
+    backgroundColor: OfficialColor,
+  }
+})

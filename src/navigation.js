@@ -91,7 +91,6 @@ const AppStackNavigator = createStackNavigator({
     },
     Messenger: { screen: Messenger },
     // ForgetPassword: { screen: ForgetPassword },
-    // OwnerHome: { screen: OwnerHome },
     OwnerRegistration: { screen: OwnerRegistration },
     BookingRequest: {
         screen: BookingRequest,
@@ -123,18 +122,18 @@ const AppStackNavigator = createStackNavigator({
             ...headerObject,
             title: "VENUE CLUB",
         }
-    }
+    },
 }, {
     initialRouteName: "Main",
     // defaultNavigationOptions: { header: null }
 });
 
 const MainStack = createSwitchNavigator({
-    MainScreen: {
-        screen: AppStackNavigator,
-    },
     Login: {
         screen: Login,
+    },
+    MainScreen: {
+        screen: AppStackNavigator,
     },
     Signup: {
         screen: Signup,

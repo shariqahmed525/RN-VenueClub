@@ -65,7 +65,7 @@ const OwnerSideBar = () => {
 
         <ListItem thumbnail onPress={() => navigate('OwnerContactList')}>
           <Left>
-            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/message.png')} />
+            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/comment.png')} />
           </Left>
           <Body>
             <Text>Messages</Text>
@@ -74,7 +74,7 @@ const OwnerSideBar = () => {
 
         <ListItem thumbnail onPress={() => navigate('OwnerContact')}>
           <Left>
-            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/contactus.png')} />
+            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/telephone.png')} />
           </Left>
           <Body>
             <Text>Contact Us</Text>

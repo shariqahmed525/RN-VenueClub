@@ -1,58 +1,96 @@
-import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Button, Container, Header, Content, ListItem, List, Thumbnail, Icon, Text, Form, Body, Title, Left, Right } from 'native-base';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
+import {
+  View
+} from 'react-native';
+import {
+  Container,
+  Content,
+  ListItem,
+  List,
+  Thumbnail,
+  Text,
+  Body,
+  Left,
+  Spinner,
+} from 'native-base';
+import { useNavigation } from 'react-navigation-hooks';
+import store from '../store/';
+import { OfficialColor } from '../constants/colors';
+import { DATABASE } from '../config/firebase';
 
-class OwnerContactList extends Component {
+export default OwnerContactList = () => {
+  let { navigate } = useNavigation();
+  const [uid, setUid] = useState("");
+  const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  constructor() {
-    super();
+  useEffect(() => {
+    const { reducer } = store.getState();
+    const { uid } = reducer;
+    setUid(uid);
+    getChatList(uid);
+  }, []);
 
-    this.state = {
-      contactsArray: []
-    }
-
+  const getChatList = (id) => {
+    DATABASE
+      .ref('users')
+      .child(id)
+      .child("chatMobList")
+      .on('value', snap => {
+        if (snap.exists()) {
+          let arry = [];
+          let keys = Object.keys(snap.val());
+          keys.map(v => {
+            DATABASE.ref('users').child(v).once('value', snapshot => {
+              arry.push(snapshot.val());
+              if (arry.length === keys.length) {
+                setList([...arry]);
+                setLoading(false);
+              }
+            });
+          })
+        }
+        else {
+          setLoading(false);
+        }
+      })
   }
 
-  displayContacts() {
-    const { contactsArray } = this.state;
-    contactsArray.push({ image: require('../images/hall1.jpg'), name: 'Lovely', message: 'Hello nice to meet you' });
-    contactsArray.push({ image: require('../images/hall2.jpg'), name: 'Madni', message: 'Hello nice to meet you' });
-    contactsArray.push({ image: require('../images/hall3.jpg'), name: 'Sweet', message: 'Hello nice to meet you' });
-
-  }
-
-  render() {
-    const { contactsArray } = this.state;
-    this.displayContacts();
-
-    return (
-      <Container>
-        <Content style={{ paddingVertical: 20, paddingHorizontal: 10 }}>
-          {contactsArray.map((val, ind) => {
-            return (
-
-              <List>
-                <ListItem avatar onPress={() => this.props.navigation.navigate('OwnerMessenger')}>
-                  <Left>
-                    <Thumbnail source={val.image} />
-                  </Left>
-                  <Body>
-                    <Text>{val.name}</Text>
-                    <Text note>{val.message}</Text>
-                  </Body>
-
-                </ListItem>
-              </List>
-            )
-          })}
-
-
-
-
-        </Content>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <Content contentContainerStyle={{ paddingTop: 15, paddingBottom: 20, paddingRight: 10, flexGrow: 1, }}>
+        {loading ? (
+          <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center', }}>
+            <Spinner color={OfficialColor} />
+          </View>
+        ) : (
+            list.length > 0 ? (
+              list.map((val, i) => {
+                return (
+                  <List key={i}>
+                    <ListItem avatar onPress={() => navigate('OwnerMessenger', {
+                      receiverId: val.uid,
+                    })}>
+                      <Left>
+                        <Thumbnail source={require('../images/user.png')} />
+                      </Left>
+                      <Body>
+                        <Text>{`${val.fName.trim()} ${val.lName.trim()}`}</Text>
+                      </Body>
+                    </ListItem>
+                  </List>
+                )
+              })
+            ) : (
+                <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center', }}>
+                  <Text>Message Box Empty</Text>
+                </View>
+              )
+          )}
+      </Content>
+    </Container>
+  )
 }
-
-export default OwnerContactList;
