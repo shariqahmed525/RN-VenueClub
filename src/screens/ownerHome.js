@@ -42,9 +42,9 @@ export default OwnerHome = () => {
       allHalls.map(v => {
         if (v.userKey === uid && v.bookingsMob) {
           _.mapValues(v.bookingsMob, (o) => {
-            if (o.status === "PENDING") {
-              newArr.push([v.hallName, `${o.day}/${o.month}/${o.year}`, o.status]);
-            }
+            newArr.push([v.hallName, `${o.day}/${o.month}/${o.year}`, o.status]);
+            // if (o.status === "PENDING") {
+            // }
           });
         }
       })

@@ -27,9 +27,10 @@ import { OfficialColor } from '../constants/colors';
 
 export default BookingRequest = () => {
   let { navigate } = useNavigation();
+  const [index, setIndex] = useState("");
+  const [uid, setUid] = useState("");
   const [allHalls, setAllHalls] = useState([]);
   const [requests, setRequests] = useState([]);
-  const [index, setIndex] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ export default BookingRequest = () => {
   const getStateFromStore = async () => {
     const { reducer } = store.getState();
     const { allHalls, uid } = reducer;
+    setUid(uid);
     // For recent booking
 
     const newArr = [];
@@ -47,15 +49,17 @@ export default BookingRequest = () => {
       allHalls.map(v => {
         if (v.userKey === uid && v.bookingsMob) {
           _.mapValues(v.bookingsMob, (o, key) => {
-            newArr.push({
-              hallName: v.hallName,
-              date: `${o.day}/${o.month}/${o.year}`,
-              hallDataKey: v.hallDataKey,
-              userKey: v.userKey,
-              bookId: o.bookId,
-              bookKey: key,
-              status: o.status,
-            });
+            if (o.status !== "REJECT") {
+              newArr.push({
+                hallName: v.hallName,
+                date: `${o.day}/${o.month}/${o.year}`,
+                hallDataKey: v.hallDataKey,
+                userKey: v.userKey,
+                bookId: o.bookId,
+                bookKey: key,
+                status: o.status,
+              });
+            }
           });
         }
       })
@@ -108,37 +112,63 @@ export default BookingRequest = () => {
   }
 
   const reject = (param, index) => {
-    const { userKey, hallDataKey, bookKey } = param;
+    const { userKey, hallDataKey, bookKey, bookId } = param;
     setIndex(index);
     setLoading(true);
+
+    /* Add my rejected node */
     DATABASE
-      .ref("allHallData")
-      .child(userKey)
-      .child(hallDataKey)
-      .child("bookingsMob")
-      .child(bookKey)
-      .remove()
-      .then(() => {
-        alert("Customer Request Rejected!");
-        setIndex("");
-        setLoading(false);
+      .ref('users')
+      .child(uid)
+      .child('rejected')
+      .push({
+        ...param,
+        status: "REJECT"
+      });
+
+    /* Add user rejected node */
+    DATABASE
+      .ref('users')
+      .child(bookId)
+      .child('rejected')
+      .push({
+        ...param,
+        status: "REJECT"
       })
-      .catch(err => {
-        alert("Something went wrong please try again!");
-        console.log(err, " error in accept");
-        setLoading(false);
+      .then(() => {
+
+        /* reject booking node */
+        DATABASE
+          .ref("allHallData")
+          .child(userKey)
+          .child(hallDataKey)
+          .child("bookingsMob")
+          .child(bookKey)
+          .update({
+            status: "REJECT",
+          })
+          .then(() => {
+            alert("Customer Request Rejected!");
+            setIndex("");
+            setLoading(false);
+          })
+          .catch(err => {
+            alert("Something went wrong please try again!");
+            console.log(err, " error in accept");
+            setLoading(false);
+          })
       })
   }
 
   return (
     <Container>
-      <Content style={{ paddingVertical: 20, paddingRight: 10 }}>
+      <Content style={{ paddingRight: 10 }}>
         <Text style={styles.title}>Customer Requests</Text>
         {allHalls.length > 0 ? (
           requests.length > 0 ? (
             requests.map((v, i) => {
               return (
-                <List key={i}>
+                <List style={{ marginBottom: 10 }} key={i}>
                   <ListItem avatar>
                     <Body>
                       <Text style={{ fontWeight: 'bold' }}>Customer Name:

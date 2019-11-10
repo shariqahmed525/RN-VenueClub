@@ -46,3 +46,11 @@ export const getAllHalls = () => {
         })
     }
 }
+
+export const getUser = uid => {
+    return dispatch => {
+        DATABASE.ref('users').child(uid).on('value', snap => {
+            dispatch(user(snap.val()));
+        })
+    }
+}

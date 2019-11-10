@@ -55,7 +55,7 @@ export default Home = () => {
       allHalls.map(v => {
         if (v.bookingsMob) {
           _.mapValues(v.bookingsMob, (o) => {
-            if (o.bookId === uid && o.status === "PENDING") {
+            if (o.bookId === uid) {
               newArr.push([v.hallName, `${o.day}/${o.month}/${o.year}`, o.status]);
             }
           });
@@ -111,7 +111,7 @@ export default Home = () => {
                           </CardItem>
                           <CardItem cardBody>
                             <Image
-                              source={{ uri: val.picture[0] }}
+                              source={{ uri: val.picture ? val.picture[0] : "https://howfix.net/wp-content/uploads/2018/02/sIaRmaFSMfrw8QJIBAa8mA-article.png" }}
                               style={{ height: 200, width: null, flex: 1 }}
                             />
                           </CardItem>

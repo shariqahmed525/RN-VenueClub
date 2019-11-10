@@ -148,7 +148,7 @@ export default Register = () => {
             <RenderList name="Capacity" desc={data.capacity} />
             <RenderList name="Location" desc={data.venueLocation} />
             <RenderList name="Address" desc={data.address} />
-            <RenderList name="Price" desc={data.address} />
+            <RenderList name="Price" desc={data.price} />
             <RenderList name="Description" desc={data.description} />
             <RenderList
               name="Date"

@@ -32,7 +32,7 @@ import {
   LinkColor,
   OfficialColor,
 } from '../constants/colors.js';
-import { user, uid, getAllHalls } from '../store/action/action';
+import { user, uid, getAllHalls, getUser } from '../store/action/action';
 
 export default Login = () => {
   const { navigate } = useNavigation();
@@ -46,6 +46,7 @@ export default Login = () => {
       const val = childsnap.val();
       store.dispatch(uid(id));
       store.dispatch(user(val));
+      store.dispatch(getUser(id));
       store.dispatch(getAllHalls());
       navigate('MainScreen');
     })
