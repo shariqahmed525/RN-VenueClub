@@ -72,6 +72,15 @@ const OwnerSideBar = () => {
           </Body>
         </ListItem>
 
+        <ListItem thumbnail onPress={() => navigate('MyVenues')}>
+          <Left>
+            <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/city-hall.png')} />
+          </Left>
+          <Body>
+            <Text>My Venues</Text>
+          </Body>
+        </ListItem>
+
         <ListItem thumbnail onPress={() => navigate('OwnerContact')}>
           <Left>
             <Thumbnail square style={{ width: 30, height: 30 }} source={require('../images/telephone.png')} />

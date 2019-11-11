@@ -19,9 +19,6 @@ import {
   Container,
   Spinner,
 } from 'native-base';
-import {
-  useNavigation
-} from 'react-navigation-hooks'
 
 import {
   AUTH,
@@ -33,7 +30,6 @@ import {
 } from '../constants/colors.js';
 
 export default Signup = () => {
-  const { navigate } = useNavigation();
   const [disable, setDisable] = useState(false);
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
@@ -100,7 +96,6 @@ export default Signup = () => {
         getKey.set(obj)
         setDisable(false);
         alert('signup successfully');
-        navigate('Login');
       })
       .catch(err => {
         setDisable(false);

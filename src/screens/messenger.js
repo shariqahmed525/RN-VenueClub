@@ -71,16 +71,13 @@ let Messenger = () => {
     updatesForMsg['/users/' + uid + '/chatMob/' + receiverId + '/' + newPostKey] = postMsg;
     updatesForMsg['/users/' + receiverId + '/chatMob/' + uid + '/' + newPostKey] = postMsg;
 
-
-    let updatesForList = {};
-    updatesForList['/users/' + uid + '/chatMobList/'] = {
-      [receiverId]: receiverId,
-    };
-    updatesForList['/users/' + receiverId + '/chatMobList/'] = {
-      [uid]: uid,
-    };
     firebase.database().ref().update(updatesForMsg);
-    firebase.database().ref().update(updatesForList);
+    firebase.database().ref('users').child(uid).child('chatMobList').child(receiverId).update({
+      uid: receiverId,
+    });
+    firebase.database().ref('users').child(receiverId).child('chatMobList').child(uid).update({
+      uid,
+    });
     setTxt("");
   }
 

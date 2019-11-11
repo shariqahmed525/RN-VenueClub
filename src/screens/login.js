@@ -7,6 +7,7 @@ import {
   Image,
   StatusBar,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import {
   Text,
@@ -33,13 +34,25 @@ import {
   OfficialColor,
 } from '../constants/colors.js';
 import { user, uid, getAllHalls, getUser } from '../store/action/action';
+import { RESET_ROUTE } from '../constants/functions';
 
-export default Login = () => {
+export default Login = props => {
   const { navigate } = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    AUTH.onAuthStateChanged(user => {
+      if (user) {
+        checkUserFromDB(user.uid);
+      }
+      else {
+        setLoading(false);
+      }
+    })
+  }, [])
 
   const checkUserFromDB = (id) => {
     DATABASE.ref('users').child(id).once('value', (childsnap) => {
@@ -48,7 +61,7 @@ export default Login = () => {
       store.dispatch(user(val));
       store.dispatch(getUser(id));
       store.dispatch(getAllHalls());
-      navigate('MainScreen');
+      props.navigation.dispatch(RESET_ROUTE('Main'))
     })
       .then(() => {
         setEmail("");
@@ -61,17 +74,6 @@ export default Login = () => {
         console.log(error, " error in login check database user");
       });
   }
-
-  useEffect(() => {
-    AUTH.onAuthStateChanged(user => {
-      if (user) {
-        checkUserFromDB(user.uid);
-      }
-      else {
-        setLoading(false);
-      }
-    })
-  }, [])
 
   const login = () => {
     if (email === '' || password === '') {

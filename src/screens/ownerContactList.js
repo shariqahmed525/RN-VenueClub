@@ -42,16 +42,27 @@ export default OwnerContactList = () => {
       .on('value', snap => {
         if (snap.exists()) {
           let arry = [];
-          let keys = Object.keys(snap.val());
-          keys.map(v => {
-            DATABASE.ref('users').child(v).once('value', snapshot => {
-              arry.push(snapshot.val());
-              if (arry.length === keys.length) {
+          let l = snap.numChildren();
+          snap.forEach(snaphot => {
+            let getId = snaphot.val().uid;
+            DATABASE.ref('users').child(getId).once('value', subsnapshot => {
+              arry.push(subsnapshot.val());
+              if (arry.length == l) {
                 setList([...arry]);
                 setLoading(false);
               }
             });
           })
+          // let keys = Object.keys(snap.val());
+          // keys.map(v => {
+          //   DATABASE.ref('users').child(v).once('value', snapshot => {
+          //     arry.push(snapshot.val());
+          //     if (arry.length === keys.length) {
+          //       setList([...arry]);
+          //       setLoading(false);
+          //     }
+          //   });
+          // })
         }
         else {
           setLoading(false);

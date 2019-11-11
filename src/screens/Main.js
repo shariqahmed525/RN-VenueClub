@@ -27,6 +27,7 @@ import { OfficialColor } from '../constants/colors';
 import UserSideBar from '../components/userSideBar';
 import OwnerSideBar from '../components/ownerSideBar';
 import { AUTH } from '../config/firebase';
+import { RESET_ROUTE } from '../constants/functions';
 
 let _drawerRef;
 let logout;
@@ -61,7 +62,7 @@ let Main = props => {
 
   logout = () => {
     AUTH.signOut()
-      .then(() => navigate('Login'))
+      .then(() => props.navigation.dispatch(RESET_ROUTE('Login')))
       .catch(e => console.log(e, " error in logout"));
   }
 

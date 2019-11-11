@@ -2,7 +2,6 @@ import React from 'react';
 import {
     createStackNavigator,
     createAppContainer,
-    createSwitchNavigator
 } from 'react-navigation';
 import Login from './screens/login.js';
 import Signup from './screens/signup.js';
@@ -14,8 +13,8 @@ import Aboutus from './screens/aboutus.js';
 import Contactus from './screens/contactus.js';
 import ContactList from './screens/contactList.js';
 import Messenger from './screens/messenger.js';
+import MyVenues from './screens/MyVenues';
 import ForgetPassword from './screens/forgetPassword.js';
-import OwnerHome from './screens/ownerHome.js';
 import OwnerRegistration from './screens/ownerRegistration.js';
 import BookingRequest from './screens/bookingRequest.js';
 import OwnerMessenger from './screens/ownerMessenger.js';
@@ -90,7 +89,6 @@ const AppStackNavigator = createStackNavigator({
         }
     },
     Messenger: { screen: Messenger },
-    // ForgetPassword: { screen: ForgetPassword },
     OwnerRegistration: { screen: OwnerRegistration },
     BookingRequest: {
         screen: BookingRequest,
@@ -123,26 +121,33 @@ const AppStackNavigator = createStackNavigator({
             title: "VENUE CLUB",
         }
     },
-}, {
-    initialRouteName: "Main",
-    // defaultNavigationOptions: { header: null }
-});
-
-const MainStack = createSwitchNavigator({
+    MyVenues: {
+        screen: MyVenues,
+        navigationOptions: {
+            ...headerObject,
+            title: "MY VENUES",
+        }
+    },
     Login: {
         screen: Login,
-    },
-    MainScreen: {
-        screen: AppStackNavigator,
+        navigationOptions: {
+            header: null,
+        }
     },
     Signup: {
         screen: Signup,
+        navigationOptions: {
+            header: null,
+        }
     },
     ForgetPassword: {
         screen: ForgetPassword,
+        navigationOptions: {
+            header: null,
+        }
     },
 }, {
-    initialRouteName: "Login"
-})
+    initialRouteName: "Login",
+});
 
-export default Navigator = createAppContainer(MainStack);
+export default Navigator = createAppContainer(AppStackNavigator);

@@ -5,7 +5,6 @@ import React, {
 import {
   View,
   Image,
-  ScrollView,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
@@ -16,9 +15,6 @@ import {
   Body,
   Content,
   Card,
-  Tabs,
-  Tab,
-  ScrollableTab,
   CardItem,
   Spinner,
   Container,
@@ -27,20 +23,15 @@ import {
   useNavigation
 } from 'react-navigation-hooks';
 import store from '../store';
-import { Table, Row, Rows } from 'react-native-table-component';
 import { OfficialColor } from '../constants/colors';
 import _ from 'lodash';
 
-const tableHead = ['Hall Name', 'Date', 'Status'];
-
-export default Home = props => {
+export default MyVenues = props => {
   let { navigate } = useNavigation();
   const [allHalls, setAllHalls] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    setLoading(false);
     getStateFromStore();
     store.subscribe(getStateFromStore);
   }, []);
@@ -53,17 +44,13 @@ export default Home = props => {
     const newArr = [];
     allHalls.length > 0 && (
       allHalls.map(v => {
-        if (v.bookingsMob) {
-          _.mapValues(v.bookingsMob, (o) => {
-            if (o.bookId === uid) {
-              newArr.push([v.hallName, `${o.day}/${o.month}/${o.year}`, o.status]);
-            }
-          });
+        if (v.userKey == uid) {
+          newArr.push(v);
         }
       })
     );
-    setTableData([...newArr])
-    setAllHalls(allHalls);
+    setLoading(false);
+    setAllHalls([...newArr]);
   }
 
   const Cards = () => {
@@ -93,9 +80,6 @@ export default Home = props => {
                               <Text>
                                 {val.hallName}
                               </Text>
-                              <Text note>
-                                {val.address}
-                              </Text>
                             </Body>
                           </Left>
                         </CardItem>
@@ -106,15 +90,26 @@ export default Home = props => {
                           />
                         </CardItem>
                         <CardItem style={styles.cardBottom}>
-                          <Button
-                            block
-                            onPress={() => navigate('Register', {
-                              data: val
-                            })}
-                            style={{ backgroundColor: OfficialColor, width: "100%" }}
-                          >
-                            <Text>Register Venue</Text>
-                          </Button>
+                          <Body>
+                            <Text style={{ fontWeight: 'bold' }}>Venue Type
+                            <Text style={{ fontWeight: 'normal' }}> {val.venueType}</Text>
+                            </Text>
+                            <Text style={{ fontWeight: 'bold' }}>Capacity
+                            <Text style={{ fontWeight: 'normal' }}> {val.capacity}</Text>
+                            </Text>
+                            <Text style={{ fontWeight: 'bold' }}>Price
+                            <Text style={{ fontWeight: 'normal' }}> {val.price}</Text>
+                            </Text>
+                            <Text style={{ fontWeight: 'bold' }}>Location
+                            <Text style={{ fontWeight: 'normal' }}> {val.venueLocation}</Text>
+                            </Text>
+                            <Text style={{ fontWeight: 'bold' }}>Address
+                            <Text style={{ fontWeight: 'normal' }}> {val.address}</Text>
+                            </Text>
+                            <Text style={{ fontWeight: 'bold' }}>Description
+                            <Text style={{ fontWeight: 'normal' }}> {val.description}</Text>
+                            </Text>
+                          </Body>
                         </CardItem>
                       </Card>
                     </TouchableOpacity>
@@ -124,7 +119,7 @@ export default Home = props => {
             )
               : (
                 <View style={{ justifyContent: "center", alignItems: 'center', flex: 1, }}>
-                  <Spinner color={OfficialColor} />
+                  <Text>No Venues Found</Text>
                 </View>
               )
           )}
@@ -132,56 +127,9 @@ export default Home = props => {
     )
   }
 
-  const Recent = () => {
-    return (
-      <View style={styles.tableContainer}>
-        <Table borderStyle={{ borderWidth: 1, borderColor: OfficialColor }}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text} />
-        </Table>
-        <ScrollView
-          style={{ marginTop: -1 }}
-          showsVerticalScrollIndicator={false}
-        >
-          {allHalls.length > 0 ? (
-            tableData.length > 0 ?
-              <Table borderStyle={{ borderWidth: 1, borderColor: OfficialColor }}>
-                <Rows data={tableData} textStyle={styles.text} />
-              </Table>
-              :
-              <Text style={styles.noFound}>You have no recent booking yet!</Text>
-          ) : (
-              <Spinner color={OfficialColor} />
-            )}
-        </ScrollView>
-      </View>
-    )
-  }
-
   return (
     <Container>
-      <Tabs
-        tabBarBackgroundColor="#28A745"
-        renderTabBar={() => <ScrollableTab />}
-      >
-        <Tab
-          tabStyle={{ backgroundColor: '#28A745' }}
-          textStyle={{ color: '#ffffff' }}
-          activeTextStyle={{ color: '#ffffff' }}
-          activeTabStyle={{ backgroundColor: '#28A745' }}
-          heading="Venues"
-        >
-          <Cards />
-        </Tab>
-        <Tab
-          tabStyle={{ backgroundColor: '#28A745' }}
-          textStyle={{ color: '#ffffff' }}
-          activeTextStyle={{ color: '#ffffff' }}
-          activeTabStyle={{ backgroundColor: '#28A745' }}
-          heading="Recent Bookings"
-        >
-          <Recent />
-        </Tab>
-      </Tabs>
+      <Cards />
     </Container>
   );
 }
