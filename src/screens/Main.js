@@ -16,9 +16,6 @@ import {
   Drawer,
   Thumbnail,
 } from 'native-base';
-import {
-  useNavigation,
-} from 'react-navigation-hooks'
 
 import Home from './home';
 import OwnerHome from './ownerHome';
@@ -33,7 +30,6 @@ let _drawerRef;
 let logout;
 
 let Main = props => {
-  const { navigate } = useNavigation();
   const [loading, setLoading] = useState(true);
   const [accountType, setAccountType] = useState(0);
   _drawerRef = useRef(null);
@@ -84,7 +80,7 @@ let Main = props => {
           <Root>
             <Drawer
               ref={(ref) => _drawerRef = ref}
-              content={<OwnerSideBar />}
+              content={<OwnerSideBar {...props} />}
               onClose={onClose}
               onOpen={onOpen}
             >
@@ -95,7 +91,7 @@ let Main = props => {
           <Root>
             <Drawer
               ref={(ref) => _drawerRef = ref}
-              content={<UserSideBar />}
+              content={<UserSideBar {...props} />}
               onClose={onClose}
               onOpen={onOpen}
             >

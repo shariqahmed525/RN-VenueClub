@@ -13,15 +13,16 @@ import {
 import store from '../store';
 import { Content, ListItem, Left, Thumbnail, Body, List } from 'native-base';
 import { AUTH } from '../config/firebase.js';
+import { RESET_ROUTE } from '../constants/functions';
 
-const OwnerSideBar = () => {
+const OwnerSideBar = props => {
 
   const { navigate } = useNavigation();
   const [userD, setUser] = useState(null);
 
   const logOff = () => {
     AUTH.signOut().then(() => {
-      navigate('Login')
+      props.navigation.dispatch(RESET_ROUTE('Login'))
     }).catch(function (error) {
       console.log(error, " error in signout");
     });

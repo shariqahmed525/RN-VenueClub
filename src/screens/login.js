@@ -7,7 +7,6 @@ import {
   Image,
   StatusBar,
   StyleSheet,
-  BackHandler,
 } from 'react-native';
 import {
   Text,
@@ -87,7 +86,6 @@ export default Login = props => {
       AUTH.signInWithEmailAndPassword(email, password)
         .then(({ user: resUser }) => {
           const id = resUser.uid;
-          console.log(id);
           checkUserFromDB(id);
         })
         .catch((error) => {
